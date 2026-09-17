@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Tablero de Laboratorio - Vista Kanban
  * MMQRO - Sistema de Gestión de Metrología
@@ -11,7 +12,7 @@ include '../includes/navbar.php';
 date_default_timezone_set('America/Mexico_City');
 
 // Conexión a BD
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 $solicitudes = [];
 $pendientes = [];
 $proceso = [];
@@ -50,19 +51,22 @@ function tiempo_transcurrido($fecha) {
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="stat-card text-center">
-            <div class="stat-number text-warning"><?php echo count($pendientes); ?></div>
+            <div class="stat-number text-warning"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($pendientes); ?></div>
             <div class="stat-label">Pendientes</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="stat-card text-center">
-            <div class="stat-number text-info"><?php echo count($proceso); ?></div>
+            <div class="stat-number text-info"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($proceso); ?></div>
             <div class="stat-label">En Proceso</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="stat-card text-center">
-            <div class="stat-number text-success"><?php echo count($listos); ?></div>
+            <div class="stat-number text-success"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($listos); ?></div>
             <div class="stat-label">Listos</div>
         </div>
     </div>
@@ -74,42 +78,75 @@ function tiempo_transcurrido($fecha) {
     <div class="col-md-4 mb-3">
         <div class="card kanban-column">
             <div class="kanban-header border-bottom">
-                <i class="bi bi-hourglass-split text-warning"></i> Pendientes <span class="badge bg-secondary"><?php echo count($pendientes); ?></span>
+                <i class="bi bi-hourglass-split text-warning"></i> Pendientes <span class="badge bg-secondary"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($pendientes); ?></span>
             </div>
             <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
-                <?php if (empty($pendientes)): ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; if (empty($pendientes)): ?>
                     <p class="text-muted text-center">No hay solicitudes</p>
-                <?php else: ?>
-                    <?php foreach ($pendientes as $s): ?>
-                        <?php $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
-                        <?php $esEspecial = !empty($s['especial']); ?>
-                        <?php $esPrioridad = !empty($s['maquina_detenida']); ?>
-                        <div class="kanban-card mb-2 <?php echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-warning'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php echo $s['id']; ?>" data-estatus="pendiente" data-folio="<?php echo $s['folio']; ?>" data-tipo="<?php echo $s['tipo_solicitud']; ?>" data-solicitante="<?php echo $nombre; ?>" data-commodity="<?php echo $s['commodity']; ?>" data-cantidad="<?php echo $s['cantidad']; ?>" data-descripcion="<?php echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php echo $s['fecha_creacion']; ?>" data-numero_parte="<?php echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
+                <?php
+require_once __DIR__ . '/../config/database.php'; else: ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; foreach ($pendientes as $s): ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esEspecial = !empty($s['especial']); ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esPrioridad = !empty($s['maquina_detenida']); ?>
+                        <div class="kanban-card mb-2 <?php
+require_once __DIR__ . '/../config/database.php'; echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-warning'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>" data-estatus="pendiente" data-folio="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>" data-tipo="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['tipo_solicitud']; ?>" data-solicitante="<?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?>" data-commodity="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?>" data-cantidad="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>" data-descripcion="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['fecha_creacion']; ?>" data-numero_parte="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
                             <div class="card-body p-2">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
-                                        <strong><?php echo $s['folio']; ?></strong>
-                                        <?php if ($esPrioridad): ?>
+                                        <strong><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?></strong>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esPrioridad): ?>
                                         <span class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle"></i> MAQUINA DETENIDA</span>
-                                        <?php endif; ?>
-                                        <?php if ($esEspecial): ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esEspecial): ?>
                                         <span class="badge bg-danger ms-1"><i class="bi bi-star-fill"></i> ESPECIAL</span>
-                                        <?php endif; ?>
-                                        <?php if (!empty($s['numero_parte'])): ?>
-                                        <span class="badge bg-secondary ms-1"><?php echo $s['numero_parte']; ?></span>
-                                        <?php endif; ?>
-                                        <br><small class="text-muted"><?php echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if (!empty($s['numero_parte'])): ?>
+                                        <span class="badge bg-secondary ms-1"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte']; ?></span>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <br><small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
                                     </div>
-                                    <small class="text-muted"><?php echo tiempo_transcurrido($s['fecha_creacion']); ?></small>
+                                    <small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo tiempo_transcurrido($s['fecha_creacion']); ?></small>
                                 </div>
-                                <small class="text-muted d-block"><?php echo $nombre; ?> | <?php echo $s['commodity']; ?> (<?php echo $s['cantidad']; ?>)</small>
+                                <small class="text-muted d-block"><?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?> | <?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?> (<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>)</small>
                                 <div class="mt-1">
-                                    <button class="btn btn-sm btn-info py-0 px-1" onclick="pasarEstatusRapido(<?php echo $s['id']; ?>, 'proceso')" title="Pasar a Proceso"><i class="bi bi-arrow-right"></i></button>
+                                    <button class="btn btn-sm btn-info py-0 px-1" onclick="pasarEstatusRapido(<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>, 'proceso')" title="Pasar a Proceso"><i class="bi bi-arrow-right"></i></button>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
             </div>
         </div>
     </div>
@@ -118,43 +155,77 @@ function tiempo_transcurrido($fecha) {
     <div class="col-md-4 mb-3">
         <div class="card kanban-column">
             <div class="kanban-header border-bottom">
-                <i class="bi bi-arrow-repeat text-info"></i> En Proceso <span class="badge bg-secondary"><?php echo count($proceso); ?></span>
+                <i class="bi bi-arrow-repeat text-info"></i> En Proceso <span class="badge bg-secondary"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($proceso); ?></span>
             </div>
             <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
-                <?php if (empty($proceso)): ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; if (empty($proceso)): ?>
                     <p class="text-muted text-center">No hay solicitudes</p>
-                <?php else: ?>
-                    <?php foreach ($proceso as $s): ?>
-                        <?php $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
-                        <?php $esEspecial = !empty($s['especial']); ?>
-                        <?php $esPrioridad = !empty($s['maquina_detenida']); ?>
-                        <div class="kanban-card mb-2 <?php echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-info'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php echo $s['id']; ?>" data-estatus="proceso" data-folio="<?php echo $s['folio']; ?>" data-tipo="<?php echo $s['tipo_solicitud']; ?>" data-solicitante="<?php echo $nombre; ?>" data-commodity="<?php echo $s['commodity']; ?>" data-cantidad="<?php echo $s['cantidad']; ?>" data-descripcion="<?php echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php echo $s['fecha_creacion']; ?>" data-numero_parte="<?php echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
+                <?php
+require_once __DIR__ . '/../config/database.php'; else: ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; foreach ($proceso as $s): ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esEspecial = !empty($s['especial']); ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esPrioridad = !empty($s['maquina_detenida']); ?>
+                        <div class="kanban-card mb-2 <?php
+require_once __DIR__ . '/../config/database.php'; echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-info'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>" data-estatus="proceso" data-folio="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>" data-tipo="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['tipo_solicitud']; ?>" data-solicitante="<?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?>" data-commodity="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?>" data-cantidad="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>" data-descripcion="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['fecha_creacion']; ?>" data-numero_parte="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
                             <div class="card-body p-2">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
-                                        <strong><?php echo $s['folio']; ?></strong>
-                                        <?php if ($esPrioridad): ?>
+                                        <strong><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?></strong>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esPrioridad): ?>
                                         <span class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle"></i> MAQUINA DETENIDA</span>
-                                        <?php endif; ?>
-                                        <?php if ($esEspecial): ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esEspecial): ?>
                                         <span class="badge bg-danger ms-1"><i class="bi bi-star-fill"></i> ESPECIAL</span>
-                                        <?php endif; ?>
-                                        <?php if (!empty($s['numero_parte'])): ?>
-                                        <span class="badge bg-secondary ms-1"><?php echo $s['numero_parte']; ?></span>
-                                        <?php endif; ?>
-                                        <br><small class="text-muted"><?php echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if (!empty($s['numero_parte'])): ?>
+                                        <span class="badge bg-secondary ms-1"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte']; ?></span>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <br><small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
                                     </div>
-                                    <small class="text-muted"><?php echo tiempo_transcurrido($s['fecha_creacion']); ?></small>
+                                    <small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo tiempo_transcurrido($s['fecha_creacion']); ?></small>
                                 </div>
-                                <small class="text-muted d-block"><?php echo $nombre; ?> | <?php echo $s['commodity']; ?> (<?php echo $s['cantidad']; ?>)</small>
+                                <small class="text-muted d-block"><?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?> | <?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?> (<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>)</small>
                                 <div class="mt-1">
-                                    <button class="btn btn-sm btn-warning py-0 px-1 me-1" onclick="solicitarMotivoRapido(<?php echo $s['id']; ?>, 'pendiente')" title="A Pendiente"><i class="bi bi-arrow-left"></i></button>
-                                    <button class="btn btn-sm btn-success py-0 px-1" onclick="pasarEstatusRapido(<?php echo $s['id']; ?>, 'listo')" title="Pasar a Listo"><i class="bi bi-check"></i></button>
+                                    <button class="btn btn-sm btn-warning py-0 px-1 me-1" onclick="solicitarMotivoRapido(<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>, 'pendiente')" title="A Pendiente"><i class="bi bi-arrow-left"></i></button>
+                                    <button class="btn btn-sm btn-success py-0 px-1" onclick="pasarEstatusRapido(<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>, 'listo')" title="Pasar a Listo"><i class="bi bi-check"></i></button>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
             </div>
         </div>
     </div>
@@ -163,42 +234,75 @@ function tiempo_transcurrido($fecha) {
     <div class="col-md-4 mb-3">
         <div class="card kanban-column">
             <div class="kanban-header border-bottom">
-                <i class="bi bi-check-circle text-success"></i> Listos <span class="badge bg-secondary"><?php echo count($listos); ?></span>
+                <i class="bi bi-check-circle text-success"></i> Listos <span class="badge bg-secondary"><?php
+require_once __DIR__ . '/../config/database.php'; echo count($listos); ?></span>
             </div>
             <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
-                <?php if (empty($listos)): ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; if (empty($listos)): ?>
                     <p class="text-muted text-center">No hay solicitudes</p>
-                <?php else: ?>
-                    <?php foreach ($listos as $s): ?>
-                        <?php $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
-                        <?php $esEspecial = !empty($s['especial']); ?>
-                        <?php $esPrioridad = !empty($s['maquina_detenida']); ?>
-                        <div class="kanban-card mb-2 <?php echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-success'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php echo $s['id']; ?>" data-estatus="listo" data-folio="<?php echo $s['folio']; ?>" data-tipo="<?php echo $s['tipo_solicitud']; ?>" data-solicitante="<?php echo $nombre; ?>" data-commodity="<?php echo $s['commodity']; ?>" data-cantidad="<?php echo $s['cantidad']; ?>" data-descripcion="<?php echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php echo $s['fecha_completado'] ?? $s['fecha_creacion']; ?>" data-numero_parte="<?php echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
+                <?php
+require_once __DIR__ . '/../config/database.php'; else: ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; foreach ($listos as $s): ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $nombre = $s['nombre_solicitante'] ?: $s['numero_e']; ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esEspecial = !empty($s['especial']); ?>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $esPrioridad = !empty($s['maquina_detenida']); ?>
+                        <div class="kanban-card mb-2 <?php
+require_once __DIR__ . '/../config/database.php'; echo $esPrioridad ? 'border-start-warning bg-warning-subtle' : ($esEspecial ? 'border-start-danger bg-danger-subtle' : 'border-start-success'); ?>" data-bs-toggle="modal" data-bs-target="#modalOrden" data-id="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>" data-estatus="listo" data-folio="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>" data-tipo="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['tipo_solicitud']; ?>" data-solicitante="<?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?>" data-commodity="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?>" data-cantidad="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>" data-descripcion="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?? ''; ?>" data-fecha="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['fecha_completado'] ?? $s['fecha_creacion']; ?>" data-numero_parte="<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte'] ?? ''; ?>" style="cursor:pointer;">
                             <div class="card-body p-2">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
-                                        <strong><?php echo $s['folio']; ?></strong>
-                                        <?php if ($esPrioridad): ?>
+                                        <strong><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?></strong>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esPrioridad): ?>
                                         <span class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle"></i> MAQUINA DETENIDA</span>
-                                        <?php endif; ?>
-                                        <?php if ($esEspecial): ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if ($esEspecial): ?>
                                         <span class="badge bg-danger ms-1"><i class="bi bi-star-fill"></i> ESPECIAL</span>
-                                        <?php endif; ?>
-                                        <?php if (!empty($s['numero_parte'])): ?>
-                                        <span class="badge bg-secondary ms-1"><?php echo $s['numero_parte']; ?></span>
-                                        <?php endif; ?>
-                                        <br><small class="text-muted"><?php echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; if (!empty($s['numero_parte'])): ?>
+                                        <span class="badge bg-secondary ms-1"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['numero_parte']; ?></span>
+                                        <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
+                                        <br><small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['descripcion'] ?: $s['tipo_solicitud']; ?></small>
                                     </div>
-                                    <small class="text-muted"><?php echo tiempo_transcurrido($s['fecha_completado'] ?? $s['fecha_creacion']); ?></small>
+                                    <small class="text-muted"><?php
+require_once __DIR__ . '/../config/database.php'; echo tiempo_transcurrido($s['fecha_completado'] ?? $s['fecha_creacion']); ?></small>
                                 </div>
-                                <small class="text-muted d-block"><?php echo $nombre; ?> | <?php echo $s['commodity']; ?> (<?php echo $s['cantidad']; ?>)</small>
+                                <small class="text-muted d-block"><?php
+require_once __DIR__ . '/../config/database.php'; echo $nombre; ?> | <?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?> (<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?>)</small>
                                 <div class="mt-1">
-                                    <button class="btn btn-sm btn-info py-0 px-1" onclick="pasarEstatusRapido(<?php echo $s['id']; ?>, 'proceso')" title="A Proceso"><i class="bi bi-arrow-left"></i></button>
+                                    <button class="btn btn-sm btn-info py-0 px-1" onclick="pasarEstatusRapido(<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['id']; ?>, 'proceso')" title="A Proceso"><i class="bi bi-arrow-left"></i></button>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; endif; ?>
             </div>
         </div>
     </div>
@@ -402,3 +506,4 @@ function tiempo_transcurrido($fecha) {
 </script>
 
 </div></body></html>
+

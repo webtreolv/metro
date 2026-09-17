@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 
 if (!$con) {
     echo json_encode(['success' => false, 'error' => 'No connection']);
@@ -85,3 +86,4 @@ if ($method === 'DELETE') {
 }
 
 echo json_encode(['success' => false, 'error' => 'Método no soportado']);
+

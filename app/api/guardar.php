@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Guardar Solicitud
  */
@@ -29,7 +30,7 @@ if (empty($datos['numero_e']) || empty($datos['tipo_solicitud']) || empty($datos
     exit;
 }
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { 
     $error = mysqli_connect_error();
     echo json_encode(['success'=>false, 'error'=>'Sin conexión: ' . $error]); 
@@ -79,3 +80,4 @@ if ($result) {
 }
 
 mysqli_close($con);
+

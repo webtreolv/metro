@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Cambiar estatus de solicitud
  */
@@ -13,7 +14,7 @@ $estatus = $_POST['estatus'] ?? '';
 $motivo = $_POST['motivo'] ?? '';
 
 if ($id > 0 && in_array($estatus, ['pendiente', 'proceso', 'listo'])) {
-    $con = mysqli_connect('db', 'root', 'root', 'mmqro');
+    $con = conectarDB();
     if ($con) {
         // Obtener estatus actual antes de cambiar
         $res = mysqli_query($con, "SELECT folio, estatus FROM solicitudes WHERE id = $id");
@@ -57,3 +58,4 @@ if ($id > 0 && in_array($estatus, ['pendiente', 'proceso', 'listo'])) {
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid data']);
 }
+

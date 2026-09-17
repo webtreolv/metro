@@ -7,3 +7,10 @@ services:
     ports:
       - "80:80"
     restart: always
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true
+    name: php82-mariadb104_php_network

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Agregar campo a tabla
  */
@@ -14,7 +15,7 @@ if (!$campo) {
     exit;
 }
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) {
     echo json_encode(['success'=>false, 'error'=>'Sin conexión']);
     exit;
@@ -36,3 +37,4 @@ if (mysqli_query($con, $sql)) {
 }
 
 mysqli_close($con);
+

@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Login
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false, 'error'=>'Sin conexión']); exit; }
 
 $json = file_get_contents('php://input');
@@ -42,3 +43,4 @@ if ($row = mysqli_fetch_assoc($result)) {
 }
 
 mysqli_close($con);
+

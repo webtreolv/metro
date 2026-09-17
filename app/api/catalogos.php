@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Catálogos
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 // Tipo de solicitud
@@ -77,3 +78,4 @@ echo json_encode([
     'maquinas' => $maquinas,
     'personal' => $personal
 ]);
+

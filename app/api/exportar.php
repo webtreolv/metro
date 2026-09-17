@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Exportar Reportes (Excel/PDF)
  */
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 // Guardar reporte
@@ -206,3 +207,4 @@ readfile($file.'.html');
 unlink($file);
 unlink($file.'.html');
 exit;
+

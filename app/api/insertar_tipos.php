@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Insertar tipos de solicitud
  */
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) exit;
 
 $sql = "DELETE FROM tipo_solicitud";
@@ -17,3 +18,4 @@ foreach ($tipos as $t) {
 echo "Datos insertados";
 
 mysqli_close($con);
+

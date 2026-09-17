@@ -6,12 +6,8 @@
 
 header('Content-Type: application/json');
 
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$db   = 'mmqro';
-
-$con = mysqli_connect($host, $user, $pass, $db);
+require_once __DIR__ . '/../config/database.php';
+$con = conectarDB();
 
 if (!$con) {
     echo json_encode(['success' => false, 'error' => 'Error de conexión']);

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Estadísticas y Gráficas
  */
@@ -8,7 +9,7 @@ header('Content-Type: application/json');
 // Usar timezone de México
 date_default_timezone_set('America/Mexico_City');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 // Stats básicos
@@ -70,3 +71,4 @@ echo json_encode([
         'dias' => $chartDias
     ]
 ]);
+

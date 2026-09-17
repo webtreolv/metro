@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Solicitudes CRUD
  * MMQRO - Sistema de Gestión de Metrología
@@ -13,7 +14,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
 $method = $_SERVER['REQUEST_METHOD'];
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 
 if (!$con) {
     echo json_encode(['success' => false, 'error' => 'Sin conexión a la base de datos']);
@@ -413,3 +414,4 @@ function formatearSolicitud($row) {
         'fecha_completado' => $row['fecha_completado']
     ];
 }
+

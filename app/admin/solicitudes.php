@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 $pagina = 'solicitudes';
 include '../includes/navbar.php';
 
 // Conexión a BD
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 $solicitudes = [];
 $tipos = [];
 $commodities = [];
@@ -74,25 +75,39 @@ if ($con) {
                 </tr>
             </thead>
             <tbody id="tbodySolicitudes">
-                <?php foreach ($solicitudes as $s): ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; foreach ($solicitudes as $s): ?>
                 <tr>
-                    <td><strong><?php echo $s['folio']; ?></strong></td>
-                    <td><?php echo date('d/m/Y H:i', strtotime($s['fecha_creacion'])); ?></td>
-                    <td><?php echo $s['nombre_empleado'] ?: $s['numero_e']; ?></td>
-                    <td><?php echo $s['commodity']; ?></td>
-                    <td><?php echo $s['tipo_solicitud']; ?></td>
-                    <td><?php echo $s['cantidad']; ?></td>
+                    <td><strong><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?></strong></td>
+                    <td><?php
+require_once __DIR__ . '/../config/database.php'; echo date('d/m/Y H:i', strtotime($s['fecha_creacion'])); ?></td>
+                    <td><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['nombre_empleado'] ?: $s['numero_e']; ?></td>
+                    <td><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['commodity']; ?></td>
+                    <td><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['tipo_solicitud']; ?></td>
+                    <td><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['cantidad']; ?></td>
                     <td>
-                        <?php $badge = $s['estatus'] === 'listo' ? 'success' : ($s['estatus'] === 'proceso' ? 'warning' : 'secondary'); ?>
-                        <span class="badge bg-<?php echo $badge; ?>"><?php echo $s['estatus']; ?></span>
+                        <?php
+require_once __DIR__ . '/../config/database.php'; $badge = $s['estatus'] === 'listo' ? 'success' : ($s['estatus'] === 'proceso' ? 'warning' : 'secondary'); ?>
+                        <span class="badge bg-<?php
+require_once __DIR__ . '/../config/database.php'; echo $badge; ?>"><?php
+require_once __DIR__ . '/../config/database.php'; echo $s['estatus']; ?></span>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-outline-info me-1" onclick="ver('<?php echo $s['folio']; ?>')" title="Ver"><i class="bi bi-eye"></i></button>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editar('<?php echo $s['folio']; ?>')" title="Editar"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminar('<?php echo $s['folio']; ?>')" title="Eliminar"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-info me-1" onclick="ver('<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>')" title="Ver"><i class="bi bi-eye"></i></button>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editar('<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>')" title="Editar"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminar('<?php
+require_once __DIR__ . '/../config/database.php'; echo $s['folio']; ?>')" title="Eliminar"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+                <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -117,9 +132,13 @@ if ($con) {
                         <label class="form-label">Tipo de Solicitud</label>
                         <select class="form-select" id="inputTipo">
                             <option value="">Seleccionar...</option>
-                            <?php foreach($tipos as $t): ?>
-                                <option value="<?php echo $t; ?>"><?php echo $t; ?></option>
-                            <?php endforeach; ?>
+                            <?php
+require_once __DIR__ . '/../config/database.php'; foreach($tipos as $t): ?>
+                                <option value="<?php
+require_once __DIR__ . '/../config/database.php'; echo $t; ?>"><?php
+require_once __DIR__ . '/../config/database.php'; echo $t; ?></option>
+                            <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -128,9 +147,13 @@ if ($con) {
                         <label class="form-label">Commodity</label>
                         <select class="form-select" id="inputCommodity">
                             <option value="">Seleccionar...</option>
-                            <?php foreach($commodities as $c): ?>
-                                <option value="<?php echo $c; ?>"><?php echo $c; ?></option>
-                            <?php endforeach; ?>
+                            <?php
+require_once __DIR__ . '/../config/database.php'; foreach($commodities as $c): ?>
+                                <option value="<?php
+require_once __DIR__ . '/../config/database.php'; echo $c; ?>"><?php
+require_once __DIR__ . '/../config/database.php'; echo $c; ?></option>
+                            <?php
+require_once __DIR__ . '/../config/database.php'; endforeach; ?>
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -345,3 +368,4 @@ window.onload = function() {
 </script>
 </body>
 </html>
+

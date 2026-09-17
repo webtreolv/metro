@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Insertar máquinas desde JSON
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false, 'error'=>'Sin conexión']); exit; }
 
 $json = file_get_contents('php://input');
@@ -39,3 +40,4 @@ foreach ($maquinas as $m) {
 
 mysqli_close($con);
 echo json_encode(['success'=>true, 'insertadas'=>$insertadas, 'errores'=>$errores]);
+

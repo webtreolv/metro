@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Importar máquinas desde maquina.txt
  * Ejecutar una sola vez al acceder
@@ -7,7 +8,7 @@
 header('Content-Type: application/json');
 
 // Conexión a BD
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) {
     echo json_encode(['success' => false, 'error' => 'Sin conexión a BD']);
     exit;
@@ -71,3 +72,4 @@ echo json_encode([
     'importadas' => $importados,
     'errores' => $errores
 ]);
+

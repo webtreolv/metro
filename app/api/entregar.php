@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Entregar Solicitud
  */
@@ -8,7 +9,7 @@ header('Content-Type: application/json');
 // Usar timezone de México
 date_default_timezone_set('America/Mexico_City');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false, 'error'=>'Conexión fallida']); exit; }
 
 $data = json_decode(file_get_contents('php://input'), true);
@@ -43,3 +44,4 @@ if (mysqli_query($con, $sql)) {
 }
 
 mysqli_close($con);
+

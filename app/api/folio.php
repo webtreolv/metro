@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Generar Folio
  * Formato: MYYMM-CONSECUTIVO (ej: M2606-001)
@@ -7,7 +8,7 @@
 header('Content-Type: application/json');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['folio'=>'M001001']); exit; }
 mysqli_query($con, "SET time_zone = '-05:00'");
 
@@ -32,3 +33,4 @@ $folio = $prefix . $sig;
 
 mysqli_close($con);
 echo json_encode(['folio' => $folio]);
+

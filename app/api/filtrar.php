@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Filtrar Solicitudes
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 $fecha_inicio = $_GET['fecha_inicio'] ?? '';
@@ -41,3 +42,4 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 mysqli_close($con);
 echo json_encode(['success'=>true, 'solicitudes'=>$solicitudes]);
+

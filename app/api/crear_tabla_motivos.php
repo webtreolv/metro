@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Crear tabla de motivos de cambio de estatus
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) {
     echo json_encode(['success' => false, 'error' => 'Sin conexión']);
     exit;
@@ -32,3 +33,4 @@ if (mysqli_query($con, $sql)) {
 }
 
 mysqli_close($con);
+

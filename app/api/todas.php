@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Todas las Solicitudes
  */
@@ -11,7 +12,7 @@ date_default_timezone_set('America/Mexico_City');
 $estatus = $_GET['estatus'] ?? '';
 $folio = $_GET['folio'] ?? '';
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false, 'error'=>'Sin conexión']); exit; }
 
 // Verificar y agregar columnas si no existen
@@ -74,3 +75,4 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 mysqli_close($con);
 echo json_encode(['success'=>true, 'solicitudes'=>$solicitudes]);
+

@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Empleados
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 $sql = "SELECT numero_e, nombre FROM personal WHERE activo = 1 ORDER BY nombre";
@@ -18,3 +19,4 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 mysqli_close($con);
 echo json_encode(['success'=>true, 'empleados'=>$empleados]);
+

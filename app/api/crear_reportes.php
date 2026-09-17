@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Crear tabla reportes
  */
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) exit;
 
 $sql = "SHOW TABLES LIKE 'reportes'";
@@ -23,3 +24,4 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 mysqli_close($con);
+

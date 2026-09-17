@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * Crear tabla tipo_solicitud si no existe
  */
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) exit;
 
 // Verificar si la tabla existe
@@ -30,3 +31,4 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 mysqli_close($con);
+

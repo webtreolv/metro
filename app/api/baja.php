@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Baja en Catálogo
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false]); exit; }
 
 $json = file_get_contents('php://input');
@@ -35,3 +36,4 @@ if (mysqli_query($con, $sql)) {
 }
 
 mysqli_close($con);
+

@@ -1,11 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
 /**
  * API - Cambio (Update)
  */
 
 header('Content-Type: application/json');
 
-$con = mysqli_connect('db', 'root', 'root', 'mmqro');
+$con = conectarDB();
 if (!$con) { echo json_encode(['success'=>false, 'error'=>'Conexion fallida']); exit; }
 
 $data = json_decode(file_get_contents('php://input'), true);
@@ -56,3 +57,4 @@ switch ($tipo) {
 
 mysqli_close($con);
 echo json_encode(['success'=>$success, 'error'=>$error ?: '']);
+
