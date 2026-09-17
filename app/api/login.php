@@ -30,9 +30,9 @@ if ($row = mysqli_fetch_assoc($result)) {
         $_SESSION['nombre'] = $row['nombre'];
         $_SESSION['rol'] = $row['rol'];
         
-        $redirect = '/admin/reportes.php';
-        if ($row['rol'] === 'laboratorio') $redirect = '/laboratorio/tablero.php';
-        elseif ($row['rol'] === 'usuario') $redirect = '/index.html';
+        $redirect = 'reportes.php';
+        if ($row['rol'] === 'laboratorio') $redirect = '../laboratorio/tablero.php';
+        elseif ($row['rol'] === 'usuario') $redirect = '../index.html';
         
         echo json_encode(['success'=>true, 'redirect'=>$redirect]);
     } else {
@@ -43,5 +43,6 @@ if ($row = mysqli_fetch_assoc($result)) {
 }
 
 mysqli_close($con);
+
 
 

@@ -445,7 +445,7 @@ include '../includes/navbar.php';
         }
         
         function logout() {
-            window.location.href = '/modulos/login/logout.php';
+            window.location.href = '../modulos/login/logout.php';
         }
         
         cargarCatalogos();
@@ -454,4 +454,5 @@ include '../includes/navbar.php';
 </body>
 </html>
 </html>
+
 
