@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+:root {
+    --pc-primary: #b5000b;
+    --pc-primary-hover: #8f0009;
+    --pc-surface: #f8f9fa;
+    --pc-inverse-surface: #2e3132;
+    --pc-text: #191c1d;
+    --pc-text-muted: #5f6368;
+    --pc-border: #E9ECEF;
+    --pc-pass: #27ae60;
+    --pc-fail: #b5000b;
+    --pc-warning: #f39c12;
+    --pc-info: #3498db;
+    --pc-white: #ffffff;
+    
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-pill: 999px;
+    
+    --shadow-level-1: none;
+    --shadow-level-2: 0px 4px 12px rgba(0,0,0,0.05);
+}
+
+body {
+    background-color: var(--pc-surface);
+    color: var(--pc-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--pc-inverse-surface);
+}
+
+/* Number, Data, Labels */
+.folio-display, .reloj, .table, .data-label, input[type="number"], .stat-number, .badge {
+    font-family: 'Geist Mono', monospace !important;
+}
+
+/* Layout Constraints */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+/* Cards (Level 1 Surfaces) */
+.card-form, .card, .chart-container, .table-container, .order-card {
+    background: var(--pc-white);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-level-1);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-form:hover, .order-card:hover {
+    box-shadow: var(--shadow-level-2);
+}
+
+/* High Density Padding */
+.card-form { padding: 16px; }
+.card-body { padding: 16px; }
+.mb-3 { margin-bottom: 16px !important; }
+
+/* Forms & Inputs */
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--pc-text-muted);
+    font-family: 'Geist Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.form-control, .form-select {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--pc-border);
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    background: var(--pc-surface);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--pc-primary);
+    box-shadow: 0 0 0 2px rgba(181, 0, 11, 0.1);
+    background: var(--pc-white);
+}
+
+/* Buttons */
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    padding: 8px 16px;
+    transition: all 0.15s ease;
+}
+
+.btn-primary, .btn-submit {
+    background-color: var(--pc-primary) !important;
+    border-color: var(--pc-primary) !important;
+    color: var(--pc-white) !important;
+}
+
+.btn-primary:hover, .btn-submit:hover {
+    background-color: var(--pc-primary-hover) !important;
+    border-color: var(--pc-primary-hover) !important;
+}
+
+.btn-success { background-color: var(--pc-pass); border-color: var(--pc-pass); }
+.btn-danger { background-color: var(--pc-fail); border-color: var(--pc-fail); }
+
+/* Header */
+.header-mmqro {
+    background: #ff0000;
+    border-bottom: 1px solid #cc0000;
+    padding: 16px 0;
+    color: #ffffff;
+}
+
+.header-mmqro h2 { color: #ffffff; }
+.header-mmqro .text-white { color: #ffffff !important; }
+
+/* Badges / Status */
+.badge {
+    border-radius: var(--radius-pill);
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.bg-warning { background-color: #fdf3e7 !important; color: #b7791f !important; }
+.bg-danger { background-color: #fce8e8 !important; color: #c53030 !important; }
+
+/* Table */
+.table { font-size: 0.85rem; }
+.table th {
+    font-family: 'Geist Mono', monospace;
+    text-transform: uppercase;
+    color: var(--pc-text-muted);
+    font-weight: 500;
+    border-bottom: 2px solid var(--pc-border);
+}
+
+/* Folio Display */
+.folio-display {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--pc-primary);
+    text-align: center;
+    padding: 12px;
+    background: var(--pc-surface);
+    border: 1px dashed var(--pc-border);
+    border-radius: var(--radius-sm);
+}
+
+/* Dashboard Stats */
+.stat-card {
+    background: var(--pc-white);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--pc-inverse-surface);
+}
+.stat-label {
+    font-size: 0.8rem;
+    font-family: 'Geist Mono', monospace;
+    color: var(--pc-text-muted);
+    text-transform: uppercase;
+}
+
+/* Login */
+.login-card {
+    background: var(--pc-white);
+    border: 1px solid var(--pc-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-level-2);
+}
+.login-header {
+    background: #ff0000;
+    color: #ffffff;
+    border-bottom: 1px solid #cc0000;
+}
+
+/* Kanban Cards */
+.kanban-card {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--pc-border);
+    background: var(--pc-white);
+}
+.kanban-header {
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--pc-border);
+    background: var(--pc-surface);
+}.border-start-warning { border-left: 4px solid var(--pc-warning) !important; }
+.border-start-danger { border-left: 4px solid var(--pc-fail) !important; }
+.border-start-normal { border-left: 4px solid var(--pc-border) !important; }
+.border-start-success { border-left: 4px solid var(--pc-pass) !important; }
+.border-start-info { border-left: 4px solid var(--pc-info) !important; }
+.bg-warning-subtle { background-color: #fdf3e7 !important; }
+.bg-danger-subtle { background-color: #fce8e8 !important; }
+.card-header, .modal-header {
+    background-color: var(--pc-white) !important;
+    color: var(--pc-inverse-surface) !important;
+    border-bottom: 1px solid var(--pc-border) !important;
+    font-weight: 600;
+}
+.modal-header .btn-close {
+    filter: invert(0) grayscale(100%) brightness(0);
+}
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(0,0,0,0.01) !important;
+}
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(181,0,11,0.03) !important;
+}

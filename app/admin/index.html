@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMQRO - Login</title>
+    
+    <link href="../vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../estilos/styles.css?v=2" rel="stylesheet">
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--pc-surface);
+        }
+        .login-card {
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-header {
+            padding: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <img src="../logo.png" alt="MMQRO" height="60">
+            <h2 class="mt-2 mb-0">MMQRO</h2>
+            <p class="mb-0">Acceso Administrador</p>
+        </div>
+        
+        <div class="card-body p-4">
+            <div id="error" class="alert alert-danger" style="display: none;"></div>
+            
+            <form id="formLogin">
+                <div class="mb-3">
+                    <label class="form-label">Número de Empleado</label>
+                    <input type="text" id="numeroE" class="form-control" required placeholder="E001">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required placeholder="********">
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                    </button>
+                </div>
+            </form>
+            
+            <hr>
+            <div class="text-center">
+                <a href="../index.html" class="text-muted text-decoration-none">
+                    <i class="bi bi-arrow-left"></i> Volver a Solicitudes
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../vendor/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                numero_e: document.getElementById('numeroE').value,
+                password: document.getElementById('password').value
+            };
+            
+            try {
+                const res = await fetch('../api/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                
+                const result = await res.json();
+                
+                if (result.success) {
+                    window.location.href = result.redirect;
+                } else {
+                    document.getElementById('error').innerText = result.error;
+                    document.getElementById('error').style.display = 'block';
+                }
+            } catch(e) {
+                document.getElementById('error').innerText = 'Error de conexión';
+                document.getElementById('error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

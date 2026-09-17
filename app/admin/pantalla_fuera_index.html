@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMQRO - Pantalla Fuera</title>
+    <link href="../vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/css/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="../vendor/js/chart.umd.min.js"></script>
+    <link href="../estilos/styles.css?v=2" rel="stylesheet">
+    <style>
+        body { min-height: 100vh; background-color: var(--pc-surface); }
+        .header {
+            background-color: #ff0000;
+            color: white;
+            border-bottom: 1px solid #cc0000;
+            padding: 16px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .stats-row { display: flex; justify-content: space-around; padding: 10px; margin: 10px; gap: 16px; }
+        .stat-box { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <i class="bi bi-rulers"></i> MMQRO - Producción en Tiempo Real
+    </div>
+    
+    <div class="stats-row">
+        <div class="stat-card text-center stat-box">
+            <div class="stat-number text-warning" id="statPendientes">-</div>
+            <div class="stat-label">Pendientes</div>
+        </div>
+        <div class="stat-card text-center stat-box">
+            <div class="stat-number text-info" id="statProceso">-</div>
+            <div class="stat-label">En Proceso</div>
+        </div>
+        <div class="stat-card text-center stat-box">
+            <div class="stat-number text-success" id="statListos">-</div>
+            <div class="stat-label">Listos</div>
+        </div>
+    </div>
+    
+    <div class="row" style="margin:0;">
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-clock"></i> Pendientes</div>
+                <div class="card-body" style="max-height:250px;overflow-y:auto;">
+                    <div class="table-responsive">
+                    <table class="table table-sm table-hover"><thead><tr><th>Folio</th><th>Sol.</th><th>Comm.</th><th>Hora</th><th>Tiempo</th></tr></thead>
+                    <tbody id="tablaPendientes"><tr><td colspan="5">Cargando...</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-header" style="background:#3498db;"><i class="bi bi-arrow-repeat"></i> En Proceso</div>
+                <div class="card-body" style="max-height:250px;overflow-y:auto;">
+                    <div class="table-responsive">
+                    <table class="table table-sm table-hover"><thead><tr><th>Folio</th><th>Sol.</th><th>Comm.</th><th>Hora</th><th>Tiempo</th></tr></thead>
+                    <tbody id="tablaProceso"><tr><td colspan="5">Cargando...</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-check-circle"></i> Listas</div>
+                <div class="card-body" style="max-height:250px;overflow-y:auto;">
+                    <div class="table-responsive">
+                    <table class="table table-sm table-hover"><thead><tr><th>Folio</th><th>Comm.</th><th>Sol.</th><th>Desde</th></tr></thead>
+                    <tbody id="tablaListas"><tr><td colspan="4">Cargando...</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" style="margin:10px;">
+        <div class="card-header"><i class="bi bi-bar-chart"></i> Concurrencia por Hora</div>
+        <div class="card-body" style="height:200px; position:relative;">
+            <canvas id="chartConcurrenciaCanvas"></canvas>
+        </div>
+    </div>
+    
+    <script>
+    var concurrenciaChart = null;
+    
+    function cargarDatos() {
+        fetch('../api/pantalla_fuera.php')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.success) return;
+            
+            document.getElementById('statPendientes').innerText = data.pendientes.length;
+            document.getElementById('statProceso').innerText = data.proceso ? data.proceso.length : 0;
+            document.getElementById('statListos').innerText = data.listas.length;
+            
+            var htmlP = data.pendientes.slice(0,15).map(function(s) {
+                return '<tr><td><strong>' + s.folio + '</strong></td><td>' + s.solicitante + '</td><td>' + s.commodity + '</td><td>' + s.hora_pedido + '</td><td>' + s.tiempo + '</td></tr>';
+            }).join('');
+            document.getElementById('tablaPendientes').innerHTML = htmlP || '<tr><td colspan="5">Sin datos</td></tr>';
+            
+            var htmlPro = data.proceso ? data.proceso.slice(0,15).map(function(s) {
+                return '<tr><td><strong>' + s.folio + '</strong></td><td>' + s.solicitante + '</td><td>' + s.commodity + '</td><td>' + s.hora_pedido + '</td><td>' + s.tiempo + '</td></tr>';
+            }).join('') : '';
+            document.getElementById('tablaProceso').innerHTML = htmlPro || '<tr><td colspan="5">Sin datos</td></tr>';
+            
+            var htmlL = data.listas.slice(0,15).map(function(s) {
+                return '<tr><td><strong>' + s.folio + '</strong></td><td>' + s.commodity + '</td><td>' + s.solicitante + '</td><td>' + s.tiempo_lista + '</td></tr>';
+            }).join('');
+            document.getElementById('tablaListas').innerHTML = htmlL || '<tr><td colspan="4">Sin datos</td></tr>';
+            
+            var ctx = document.getElementById('chartConcurrenciaCanvas');
+            if (ctx && data.concurrencia && data.concurrencia.labels.length > 0) {
+                if (concurrenciaChart) concurrenciaChart.destroy();
+                concurrenciaChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.concurrencia.labels,
+                        datasets: [{ data: data.concurrencia.data, backgroundColor: data.concurrencia.colors }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+                });
+            }
+        })
+        .catch(function(err) { console.error(err); });
+    }
+    
+    cargarDatos();
+    setInterval(cargarDatos, 10000);
+    </script>
+</body>
+</html>
