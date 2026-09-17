@@ -137,7 +137,7 @@ include '../includes/navbar.php';
     </div>
     
     <script src="../vendor/js/bootstrap.bundle.min.js"></script>
-    <script src="/metrologia/js/main.js"></script>
+    <script src="/js/main.js"></script>
     
     <script>
         // Iconos para acciones
@@ -311,7 +311,7 @@ include '../includes/navbar.php';
         
         async function cargarCatalogos() {
             try {
-                const res = await fetch('/metrologia/api/catalogos.php');
+                const res = await fetch('/api/catalogos.php');
                 const data = await res.json();
                 
                 if (data.success) {
@@ -390,7 +390,7 @@ include '../includes/navbar.php';
         async function nuevo(tipo) {
             mostrarModalNuevo(tipo, async function(datos) {
                 try {
-                    await fetch('/metrologia/api/alta.php', {
+                    await fetch('/api/alta.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(datos)
@@ -414,7 +414,7 @@ include '../includes/navbar.php';
             
             mostrarModalEditar(tipo, id, datos, async function(payload, esEdicion) {
                 try {
-                    await fetch('/metrologia/api/cambio.php', {
+                    await fetch('/api/cambio.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ tipo, id, ...payload })
@@ -432,7 +432,7 @@ include '../includes/navbar.php';
                 'danger',
                 async function() {
                     try {
-                        await fetch('/metrologia/api/baja.php', {
+                        await fetch('/api/baja.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ tipo, id })
@@ -445,7 +445,7 @@ include '../includes/navbar.php';
         }
         
         function logout() {
-            window.location.href = '/metrologia/modulos/login/logout.php';
+            window.location.href = '/modulos/login/logout.php';
         }
         
         cargarCatalogos();
@@ -454,3 +454,4 @@ include '../includes/navbar.php';
 </body>
 </html>
 </html>
+

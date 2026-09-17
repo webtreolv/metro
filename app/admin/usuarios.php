@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function cargarUsuarios() {
     try {
-        const res = await fetch('/metrologia/api/usuarios.php');
+        const res = await fetch('/api/usuarios.php');
         const data = await res.json();
         if (data.success) {
             document.getElementById('tablaUsuarios').innerHTML = data.usuarios.map(u => 
@@ -114,7 +114,7 @@ function nuevoUsuario() {
 }
 
 async function editarUsuario(id) {
-    const res = await fetch('/metrologia/api/usuarios.php?id=' + id);
+    const res = await fetch('/api/usuarios.php?id=' + id);
     const data = await res.json();
     if (data.success && data.usuarios.length > 0) {
         const u = data.usuarios[0];
@@ -154,7 +154,7 @@ async function guardarUsuario() {
     if (password) formData.append('password', password);
     
     try {
-        const res = await fetch('/metrologia/api/usuarios.php', {
+        const res = await fetch('/api/usuarios.php', {
             method: 'POST',
             body: formData
         });
@@ -173,7 +173,7 @@ async function eliminarUsuario() {
     if (!id || !confirm('¿Eliminar usuario?')) return;
     
     try {
-        const res = await fetch('/metrologia/api/usuarios.php?id=' + id, { method: 'DELETE' });
+        const res = await fetch('/api/usuarios.php?id=' + id, { method: 'DELETE' });
         const data = await res.json();
         if (data.success) {
             modal.hide();
@@ -186,3 +186,4 @@ async function eliminarUsuario() {
 </script>
 </body>
 </html>
+
