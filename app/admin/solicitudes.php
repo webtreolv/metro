@@ -234,7 +234,7 @@ let datosEditar = null;
 
 function editar(folio) {
     folioEditar = folio;
-    fetch('/api/todas.php?folio=' + folio)
+    fetch('../api/todas.php?folio=' + folio)
     .then(r => r.json())
     .then(d => {
         console.log('Editar datos:', d);
@@ -266,7 +266,7 @@ function editar(folio) {
 }
 
 function ver(folio) {
-    fetch('/api/todas.php?folio=' + folio)
+    fetch('../api/todas.php?folio=' + folio)
     .then(r => r.json())
     .then(d => {
         if (d.success && d.solicitudes.length > 0) {
@@ -294,7 +294,7 @@ function confirmarEliminar(folio) {
 
 function eliminar() {
     if (!folioEliminar) return;
-    fetch('/api/solicitudes.php', {
+    fetch('../api/solicitudes.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({action: 'eliminar', folio: folioEliminar})
@@ -312,7 +312,7 @@ function eliminar() {
 }
 
 function cambiarEstatus(folio, estatus) {
-    fetch('/api/cambio.php', {
+    fetch('../api/cambio.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({folio: folio, estatus: estatus})
@@ -335,8 +335,8 @@ function guardar() {
     
     // Nueva solicitud = crear, Editar = action=editar
     const url = folioEditar 
-        ? '/api/solicitudes.php?action=editar' 
-        : '/api/alta.php';
+        ? '../api/solicitudes.php?action=editar' 
+        : '../api/alta.php';
     
     fetch(url, {
         method: 'POST',
@@ -368,5 +368,6 @@ window.onload = function() {
 </script>
 </body>
 </html>
+
 
 

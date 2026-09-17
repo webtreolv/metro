@@ -88,7 +88,7 @@ include '../includes/navbar.php';
     }
     
     function cargarDatos() {
-        fetch('/api/pantalla_fuera.php')
+        fetch('../api/pantalla_fuera.php')
         .then(r => r.json())
         .then(data => {
             if (data.success) {
@@ -142,4 +142,5 @@ include '../includes/navbar.php';
 </script>
 
 </body></html>
+
 

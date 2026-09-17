@@ -198,7 +198,7 @@ include '../includes/navbar.php';
     
     async function cargarDatos() {
         try {
-            const res = await fetch('/api/estadisticas.php');
+            const res = await fetch('../api/estadisticas.php');
             const data = await res.json();
             
             if (data.success) {
@@ -248,7 +248,7 @@ include '../includes/navbar.php';
     
     async function cargarTabla() {
         try {
-            const res = await fetch('/api/todas.php');
+            const res = await fetch('../api/todas.php');
             const data = await res.json();
             if (data.success) {
                 document.getElementById('tablaSolicitudes').innerHTML = data.solicitudes.map(s => 
@@ -271,7 +271,7 @@ include '../includes/navbar.php';
     cargarReportes();
     
     function cargarReportes() {
-        fetch('/api/exportar.php?accion=listar')
+        fetch('../api/exportar.php?accion=listar')
         .then(r => r.json())
         .then(data => {
             if (data.success) {
@@ -310,7 +310,7 @@ include '../includes/navbar.php';
         };
         const campos = getSelectedCampos().split(',');
         
-        fetch('/api/exportar.php', {
+        fetch('../api/exportar.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({nombre, filtros, campos})
@@ -325,12 +325,12 @@ include '../includes/navbar.php';
     }
     
     function descargarReporte(id, formato) {
-        window.open('/api/exportar.php?id=' + id + '&formato=' + formato, '_blank');
+        window.open('../api/exportar.php?id=' + id + '&formato=' + formato, '_blank');
     }
     
     function eliminarReporte(id) {
         if (confirm('¿Eliminar este reporte?')) {
-            fetch('/api/exportar.php?accion=eliminar&id=' + id)
+            fetch('../api/exportar.php?accion=eliminar&id=' + id)
             .then(r => r.json())
             .then(data => {
                 if (data.success) cargarReportes();
@@ -380,7 +380,7 @@ include '../includes/navbar.php';
     
     async function cargarTabla() {
         try {
-            const res = await fetch('/api/todas.php');
+            const res = await fetch('../api/todas.php');
             const data = await res.json();
             if (data.success) {
                 datosFiltrados = data.solicitudes;
@@ -415,7 +415,7 @@ include '../includes/navbar.php';
         if (tipo) params.append('tipo', tipo);
         if (estatus) params.append('estatus', estatus);
         
-        fetch('/api/filtrar.php?' + params)
+        fetch('../api/filtrar.php?' + params)
         .then(r => r.json())
         .then(data => {
             if (data.success) {
@@ -501,7 +501,7 @@ include '../includes/navbar.php';
         const fechaIni = document.getElementById('fechaInicio').value;
         const fechaFin = document.getElementById('fechaFin').value;
         
-        let url = '/api/exportar.php?formato=excel';
+        let url = '../api/exportar.php?formato=excel';
         if (fechaIni) url += '&fecha_inicio=' + fechaIni;
         if (fechaFin) url += '&fecha_fin=' + fechaFin;
         
@@ -512,7 +512,7 @@ include '../includes/navbar.php';
         const fechaIni = document.getElementById('fechaInicio').value;
         const fechaFin = document.getElementById('fechaFin').value;
         
-        let url = '/api/exportar.php?formato=pdf';
+        let url = '../api/exportar.php?formato=pdf';
         if (fechaIni) url += '&fecha_inicio=' + fechaIni;
         if (fechaFin) url += '&fecha_fin=' + fechaFin;
         
@@ -535,7 +535,7 @@ include '../includes/navbar.php';
             formato: 'excel'
         });
         
-        window.open('/api/exportar.php?' + params, '_blank');
+        window.open('../api/exportar.php?' + params, '_blank');
     }
     
     function generarReportePDF() {
@@ -554,7 +554,7 @@ include '../includes/navbar.php';
             formato: 'pdf'
         });
         
-        window.open('/api/exportar.php?' + params, '_blank');
+        window.open('../api/exportar.php?' + params, '_blank');
     }
 </script>
 
@@ -672,7 +672,7 @@ include '../includes/navbar.php';
 </div>
 <script>
     // Cargar catálogos dinámicamente
-    fetch('/api/catalogos.php')
+    fetch('../api/catalogos.php')
     .then(r => r.json())
     .then(data => {
         if (data.success) {
@@ -700,4 +700,5 @@ include '../includes/navbar.php';
 </script>
 
 </body></html>
+
 
